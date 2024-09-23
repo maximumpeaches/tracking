@@ -1,0 +1,11 @@
+Position,Name,Question,Description,NumRepetitions,Interval,Color
+001,Depression,"How depressed, where 0 is least and 5 is most depressed?",,1,1,#1976D2
+002,Tiredness,"How tired, from 0 meaning not tired to 5 meaning exhausted?",,1,1,#1976D2
+003,Cronometer accurate?,Is cronometer accurate for today?,,1,1,#1976D2
+004,Metta,How many minutes of metta meditation?,"I do some mindfulness during metta meditation, but minutes in this category refer to time mostly spent doing metta.",1,1,#1976D2
+005,Concentration,How many minutes of concentration meditation?,"This can include mindfulness of feet while walking, mindfulness of a point in the body, etc",1,1,#1976D2
+006,Mouth tape,,,1,1,#1976D2
+007,Wake early morning,"How many times did you wake up before you actually woke up, towards the morning?",,1,1,#1976D2
+008,Morning sunlamp,How many minutes did you look at the sunlamp for after waking up?,,1,1,#1976D2
+009,Morning sun,How many minutes in the early morning did you spend looking indirectly at the sun?,,1,1,#1976D2
+010,Morning sun lux,How many lux was the sunlight when you were outside in the morning looking indirectly at it?,,1,1,#1976D2

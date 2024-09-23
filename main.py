@@ -25,25 +25,31 @@ def convert_to_hours(minutes: float) -> str:
   
 whoop_directory = './my_whoop_data_2024_08_27/'
 sleeps_file = whoop_directory + 'sleeps.csv'
+whoop = pd.read_csv(sleeps_file)
+whoop = whoop[whoop['Nap'] == False]
+naps = whoop[whoop['Nap'] == True]
+whoop['Cycle start time'] = whoop['Cycle start time'].map(get_bedtime_start_date)
+whoop = whoop.rename(columns={'Cycle start time': 'Day'})
+whoop.set_index('Day', inplace=True)
 
-df = pd.read_csv(sleeps_file)
-desired_columns = ['Cycle start time', 'Asleep duration (min)', 'Deep (SWS) duration (min)', 'REM duration (min)', 'Respiratory rate (rpm)', 'Sleep need (min)', 'Sleep performance %']
-df = df[df['Nap'] == False]
-naps = df[df['Nap'] == True]
+#minute_columns = ['Asleep duration (min)', 'Deep (SWS) duration (min)', 'REM duration (min)', 'Sleep need (min)']
+#for minute_column in minute_columns:
+#  df[minute_column] = df[minute_column].map(convert_to_hours)
 
-df['Cycle start time'] = df['Cycle start time'].map(get_bedtime_start_date)
+#desired_columns = ['Cycle start time', 'Asleep duration (min)', 'Deep (SWS) duration (min)', 'REM duration (min)', 'Respiratory rate (rpm)', 'Sleep need (min)', 'Sleep performance %']
+#df = df.filter(items=desired_columns)
+#df = df.reindex(desired_columns, axis=1)
+#df = df.rename(columns={'Cycle start time': 'Date', 'Deep (SWS) duration (min)': 'SWS', 'Asleep duration (min)': 'Asleep', 'REM duration (min)': 'REM'})
 
-minute_columns = ['Asleep duration (min)', 'Deep (SWS) duration (min)', 'REM duration (min)', 'Sleep need (min)']
-for minute_column in minute_columns:
-  df[minute_column] = df[minute_column].map(convert_to_hours)
+cronometer_servings = 'servings.csv'
+cronometer_summary = 'dailysummary.csv'
 
+cm = pd.read_csv(cronometer_servings)
+cm['Day'] = cm['Day'].map(lambda day: parse(day))
+cm.set_index('Day', inplace=True)
 
-df = df.filter(items=desired_columns)
-df = df.reindex(desired_columns, axis=1)
-df = df.rename(columns={'Cycle start time': 'Date', 'Deep (SWS) duration (min)': 'SWS', 'Asleep duration (min)': 'Asleep', 'REM duration (min)': 'REM'})
-
-
+merged = pd.concat([cm, whoop])
 
 with open('output.csv', 'w') as f:
-  f.write(df.to_csv(index=False))
-print(df.to_string(index=False))
+  f.write(merged.to_csv())
+print(merged.to_string(index=False))
